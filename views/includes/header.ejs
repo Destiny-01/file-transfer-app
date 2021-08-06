@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><% typeof title==='undefined'?'Home':title %></title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/font-awesome-4.7.0/css/all.min.css" />
+  </head>
+  <body>
+    <input type="hidden" id="base-url" value="/" />
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <a href="/" class="navbar-brand">File Sharer</a>
+      <div class="collapse navbar-collapse" id="navbarSupportedContenr">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a href="/" class="nav-link"
+              >Home <span class="sr-only">(current)</span></a
+              >
+          </li>
+          <li class="nav-item">
+            <a href="/MyUploads" class="nav-link">My Uploads</a>
+          </li>
+          <li class="nav-item">
+            <a href="/SharedWithMe" class="nav-link">Shared With Me</a>
+          </li>
+          <% if (req.isLogin) { %>
+          <li class="nav-item dropdown">
+            <a
+            class="nav-link dropdown-toggle"
+              href="#"
+              id="navbarDropdown"
+              role="button"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+              ><%= req.session.user.name %>
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" href="/logout" >Log Out</a>
+            </div>
+          </li>
+          <% } else { %>
+
+          <li class="nav-item">
+            <a href="/login" class="nav-link">Login</a>
+          </li>
+          <li class="nav-item">
+            <a href="/register" class="nav-link">Register</a>
+          </li>
+          <% } %>
+        </ul>
+      </div>
+    </nav>
+  </body>
+  <script src="/js/jquery-3.3.1.min.js"></script>
+  <script rel="stylesheet" src="/js/bootstrap.min.js" ></script>
+</html>
