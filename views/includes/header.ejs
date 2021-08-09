@@ -10,7 +10,37 @@
   </head>
   <body>
     <input type="hidden" id="base-url" value="/" />
+    <script>
+      let months=["January","February","March","Apri","May","June","July","August","September","October","November","December"]
+    </script>
 
+    <% 
+    months=["January","February","March","Apri","May","June","July","August","September","October","November","December"] 
+
+    formatBytes=(bytes,decimals=2)=>{
+      if(bytes===0) return '0 bytes'
+      const k=1024
+      const dm=decimals<0?0:decimals
+      const sizes=['Bytes','KB','MB','GB']
+      const i=Math.floor(Math.log(bytes)/Math.log(k))
+      return parseFloat((bytes/Math.pow(k,i)).toFixed(dm)+' '+sizes)
+    }    
+
+    getFolderSize=(arr)=>{
+      let sum=0
+      for (let a = 0; a < arr.length; a++) {
+       if (arr[a].type=='folder') {
+         if (arr[a].files.length) {
+           sum+=getFolderSize(arr[a].files)
+         }
+       } else {
+         sum+=arr[a].size
+       }         
+      }
+      return sum
+    }
+    %>
+    
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <a href="/" class="navbar-brand">File Sharer</a>
       <div class="collapse navbar-collapse" id="navbarSupportedContenr">
@@ -21,7 +51,7 @@
               >
           </li>
           <li class="nav-item">
-            <a href="/MyUploads" class="nav-link">My Uploads</a>
+            <a href="/myUploads/" class="nav-link">My Uploads</a>
           </li>
           <li class="nav-item">
             <a href="/SharedWithMe" class="nav-link">Shared With Me</a>
