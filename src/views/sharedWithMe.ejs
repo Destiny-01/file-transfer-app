@@ -1,0 +1,77 @@
+<%- include ('includes/header.ejs',{ title:"Shared With Me"}) %>
+<div class="container" style="margin-top: 50px; margin-bottom: 50px">
+  <link rel="stylesheet" href="/font-awesome-4.7.0/css/all.min.css" />
+  <%- include ('includes/responseAlert',{ req :req}) %>
+    <div class="row">
+        <div class="col-md-4">
+            <h1>
+                <% if (folderName) { %>
+                    <%= folderName %> 
+                    <% }else{ %>
+                    Shared With Me
+                <% } %>
+            </h1>
+        </div>
+        <div class="col-md-4">
+            
+        </div>
+    </div>
+  <div class="row">
+    <% files.forEach(function (file) { %>
+        <% if (typeof file.file === 'undefined') { %>
+            <% let singleFile = file %>
+        <% } else{ %>
+            <% let singleFile = file.file %>
+        <% } %>
+        <% let fileSize = 0 %>
+         
+      <div class="col-md-4" style="margin-top: 30px;">
+        <div class="card">
+          <div class="card-body" style="font-size: 100px; text-align: center;height: 300px;">
+            <% if (singleFile.type=="folder") { %>
+              <i class="fa fa-folder-open-o"></i>
+              <% }else{ %>
+                <i class="fa fa-file-text-o"></i>
+            <% } %>
+          </div>
+
+          <div class="card-footer">
+            <div class="row">
+              <div class="col-md-8">
+                <% if (singleFile.type == "folder") { %>
+                <% fileSize = getFolderSize(singleFile.files)
+                    fileSize = formatBytes(fileSize)
+                  %>  
+                  <h3>
+                    <a href="<%= '/sharedWithMe/' + singleFile._id %> ">
+                      <%= singleFile.folderName.substring(0,10) %> 
+                      <%= (singleFile.folderName.length > 10) ? "..." : "" %> 
+                    </a>
+                  </h3>
+                <% }else{ %>
+                  <% fileSize = formatBytes(singleFile.size) %>
+                  <h3>
+                    <a href="javascript:void(0)" onclick="viewFile(this)"
+                      data-name="<%= singleFile.name%>"
+                      data-id="<%= singleFile._id%>"
+                      data-type="<%= singleFile.type%>"
+                      data-created-at="<%= singleFile.createdAt%>"
+                      >
+                      <%= singleFile.name.substring(0,10) %> 
+                      <%= (singleFile.name.length > 10) ? "..." : "" %> 
+                    </a>
+                  </h3> 
+                <% } %>
+              </div>
+              <div class="col-md-4">
+                <p style="position: relative;top: 10px;"><%= fileSize %></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% }) %>
+  </div>
+  
+</div>
+<%- include ('includes/footer.ejs') %>
